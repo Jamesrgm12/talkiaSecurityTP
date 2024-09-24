@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
@@ -28,5 +29,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query("select new com.upc.talkia_proyect.dtos.queries.ShowSuscriptionDetailsDTO(sh.suscription.name, sh.payment.amount) from SuscriptionsHistory sh where sh.user.id =:userId and sh.status= 'Activado'")
     public ShowSuscriptionDetailsDTO getCurrentSuscription(@Param("userId") int userId);
+
+    Optional<User> findByUserName(String username);
 }
 

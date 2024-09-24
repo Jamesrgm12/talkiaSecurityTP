@@ -7,6 +7,7 @@ import com.upc.talkia_proyect.entities.Quiz;
 import com.upc.talkia_proyect.services.QuizService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -21,6 +22,7 @@ public class QuizController {
     ModelMapper modelMapper=new ModelMapper();
 
     @GetMapping("/quizzes")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public List<QuizDTO> listQuizzes(){
         List<Quiz> quizzes =quizService.listQuizzes();
         List<QuizDTO> quizDTOs= modelMapper.map(quizzes,List.class);
@@ -28,20 +30,25 @@ public class QuizController {
     }
 
     @PostMapping("/quiz/{userId}")
+    @PreAuthorize("hasRole('USER')")
     public Quiz insertQuiz(@PathVariable int userId){
         return quizService.insertQuiz(userId);
     }
 
     @GetMapping("/quizzes/{userId}")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public List<Quiz> listQuizzesByUserId(@PathVariable int userId) {
         return quizService.listQuizzesByUserId(userId);
     }
 
     @GetMapping("/quizzes/average")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public List<AveragePointsLevelDTO> listAveragePoints(){
         return quizService.listAveragePoints();
     }
+
     @GetMapping("/quizzes/quantity")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public List<QuizzesPerLevelDTO> listQuizzesPerLevel(){
         return quizService.listQuizzesPerLevel();
     }

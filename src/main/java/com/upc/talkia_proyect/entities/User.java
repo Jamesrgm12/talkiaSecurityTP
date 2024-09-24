@@ -1,5 +1,8 @@
 package com.upc.talkia_proyect.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +11,10 @@ import org.hibernate.annotations.ColumnDefault;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -38,10 +45,18 @@ public class User {
     @Column(name = "total_points")
     private Double totalPoints;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "roles_id")
-    private Role role;
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JsonManagedReference("user_roles")
+    private Set<Role> roles = new HashSet<>();
 
+    /*
+    @ManyToOne
+    @JoinColumn(name = "roles_id", nullable = false)
+    @JsonManagedReference("user_roles")
+    private Role role;
+     */
     @Column(name = "i_created_at",updatable = false)
     private LocalDateTime iCreatedAt;
 

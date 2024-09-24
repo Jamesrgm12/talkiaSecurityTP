@@ -4,6 +4,7 @@ import com.upc.talkia_proyect.entities.Level;
 import com.upc.talkia_proyect.services.LevelService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,7 @@ public class LevelController {
     ModelMapper modelMapper = new ModelMapper();
 
     @GetMapping("/levels")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public List<LevelDTO> listLevels(){
         List<Level> levels=levelService.listLevels();
         ModelMapper modelMapper = new ModelMapper();

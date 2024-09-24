@@ -10,12 +10,12 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class UserDTO {
     private Integer id;
     private String userName;
@@ -24,7 +24,7 @@ public class UserDTO {
     private String password;
     private LocalDate dateOfBirth;
     private Double totalPoints;
-    private Role role;
+    private Set<Role> roles;
     private LocalDateTime iCreatedAt;
     private LocalDateTime iModifiedAt;
     private Level level;
